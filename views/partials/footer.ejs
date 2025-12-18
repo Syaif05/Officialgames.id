@@ -1,0 +1,69 @@
+</main>
+    </div>
+
+    <div x-show="showAddModal" 
+         x-cloak 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+         
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all" 
+             @click.away="showAddModal = false"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+            
+            <div class="bg-indigo-600 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-white font-bold text-lg">Tambah Database Baru</h3>
+                <button @click="showAddModal = false" class="text-indigo-200 hover:text-white transition text-2xl leading-none">&times;</button>
+            </div>
+            
+            <form action="/admin/drives" method="POST" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Database</label>
+                    <input type="text" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Contoh: Film Action" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">URL Gambar Cover (Rasio 1:1)</label>
+                    <input type="text" name="imageUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="https://..." required>
+                    <p class="text-xs text-gray-400 mt-1">Disarankan ukuran 500x500 pixel.</p>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">ID Folder Google Drive</label>
+                    <input type="text" name="rootFolderId" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Paste ID Folder disini..." required>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" @click="showAddModal = false" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg transition font-medium">Batal</button>
+                    <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium shadow-lg shadow-indigo-500/30">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('adminApp', () => ({
+                showAddModal: false,
+                
+                openAddModal() { 
+                    this.showAddModal = true; 
+                    setTimeout(() => {
+                        const input = document.querySelector('input[name="name"]');
+                        if(input) input.focus();
+                    }, 100);
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

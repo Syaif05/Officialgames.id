@@ -1,0 +1,41 @@
+<%- include('../layouts/admin-header', { currentPath: '/drive-logs' }) %>
+
+<div class="max-w-7xl mx-auto" x-data="{ activeTab: 'overview' }">
+    
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <a href="/admin/drives" class="text-xs text-slate-400 font-bold uppercase tracking-wider hover:text-indigo-600 mb-2 block">← Kembali ke Daftar Database</a>
+            <h2 class="text-3xl font-extrabold text-slate-800"><%= drive.name %></h2>
+        </div>
+        
+        <div class="bg-slate-100 p-1 rounded-xl flex gap-1">
+            <button @click="activeTab = 'overview'" 
+                :class="activeTab === 'overview' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition">Ringkasan</button>
+            <button @click="activeTab = 'files'" 
+                :class="activeTab === 'files' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition">File Log</button>
+            <button @click="activeTab = 'members'" 
+                :class="activeTab === 'members' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition">Member Grup</button>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[500px]">
+        
+        <div x-show="activeTab === 'overview'">
+             <%- include('components/drive-logs-overview') %>
+        </div>
+
+        <div x-show="activeTab === 'files'" x-cloak>
+             <%- include('components/drive-logs-detail') %>
+        </div>
+
+        <div x-show="activeTab === 'members'" x-cloak>
+             <%- include('components/drive-logs-members') %>
+        </div>
+
+    </div>
+</div>
+
+<%- include('../layouts/admin-footer') %>

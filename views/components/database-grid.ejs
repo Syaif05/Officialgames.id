@@ -1,0 +1,84 @@
+<section id="database" class="py-24 bg-white relative overflow-hidden">
+    <!-- Background Decoration -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-gray-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-72 h-72 bg-gold-50 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-gold-500 font-bold tracking-wider uppercase text-sm mb-2 block">Product Collection</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+                Katalog & Isi <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-orange-500">Database</span>
+            </h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+                Telusuri daftar lengkap file dan folder yang ada di dalam setiap paket produk kami. Transparan dan lengkap.
+            </p>
+        </div>
+
+        <!-- Grid System -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <% if (drives && drives.length > 0) { %>
+                <% drives.forEach((drive, index) => { %>
+                    <a href="/view/<%= drive.slug %>" 
+                       class="group relative block"
+                       data-aos="fade-up" data-aos-delay="<%= index * 50 %>">
+                        
+                        <!-- Efek Tumpukan (Stack Effect) -->
+                        <div class="absolute top-0 left-0 w-full h-full bg-gray-100 rounded-2xl transform rotate-6 scale-90 translate-y-2 transition-transform duration-300 group-hover:rotate-3 group-hover:translate-y-3"></div>
+                        <div class="absolute top-0 left-0 w-full h-full bg-gray-200 rounded-2xl transform -rotate-3 scale-95 translate-y-1 transition-transform duration-300 group-hover:-rotate-1 group-hover:translate-y-2"></div>
+
+                        <!-- Kartu Utama -->
+                        <div class="relative bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                            
+                            <!-- Image Container (Rasio 1:1) -->
+                            <div class="relative aspect-square w-full overflow-hidden bg-gray-50 border-b border-gray-100">
+                                <img src="<%= drive.imageUrl %>" 
+                                     alt="<%= drive.name %>" 
+                                     class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                                
+                                <!-- Overlay Folder Icon on Hover -->
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                                    <div class="bg-white/20 p-4 rounded-full border border-white/50 backdrop-blur-md">
+                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1l-5 5h-5l-5-5v5a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Content Body -->
+                            <div class="p-5">
+                                <!-- Title -->
+                                <h3 class="text-lg font-bold text-gray-900 mb-1 leading-tight group-hover:text-gold-600 transition line-clamp-1">
+                                    <%= drive.name %>
+                                </h3>
+                                <p class="text-xs text-gray-400 mb-4">Klik untuk melihat daftar isi</p>
+
+                                <!-- Footer Info (Total Files) -->
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <div class="flex items-center gap-2 text-gray-600">
+                                        <!-- Icon List -->
+                                        <svg class="w-4 h-4 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                                        <span class="text-sm font-medium"><%= drive.totalFiles || 0 %> Item</span>
+                                    </div>
+                                    
+                                    <!-- Arrow Action -->
+                                    <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-gold-500 group-hover:text-white transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            <% } else { %>
+                <div class="col-span-full flex flex-col items-center justify-center py-24 border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50">
+                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                        <span class="text-4xl">📂</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Database Kosong</h3>
+                    <p class="text-gray-500 mt-2">Belum ada produk database yang ditambahkan.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>

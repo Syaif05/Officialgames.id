@@ -1,0 +1,79 @@
+<footer class="bg-gray-900 text-white border-t border-gray-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-white"><%= site.heroTitle || 'Official Games' %></h3>
+                <p class="text-gray-400 text-sm">
+                    <%= site.heroSubtitle || 'Pusat Database & Produk Digital Terlengkap' %>
+                </p>
+                <div class="flex space-x-4 pt-2">
+                    <% if (site.shopeeUrl) { %>
+                        <a href="<%= site.shopeeUrl %>" target="_blank" class="opacity-80 hover:opacity-100 transition">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg" alt="Shopee" class="h-8 bg-white rounded p-1">
+                        </a>
+                    <% } %>
+                    <% if (site.lynkUrl) { %>
+                        <a href="<%= site.lynkUrl %>" target="_blank" class="opacity-80 hover:opacity-100 transition">
+                            <div class="h-8 w-8 bg-blue-600 rounded flex items-center justify-center font-bold text-xs">Lynk</div>
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-white">Navigasi</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="/" class="hover:text-gold-400 transition">Beranda</a></li>
+                    <li><a href="#database" class="hover:text-gold-400 transition">Katalog</a></li>
+                    <li><a href="/admin" class="hover:text-gold-400 transition">Login Admin</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-white">Hubungi Kami</h3>
+                <a id="waLinkFooter" href="#" target="_blank" class="flex items-center space-x-3 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition w-fit">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="h-6 w-6" alt="WA">
+                    <span class="font-medium">Chat WhatsApp</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500">
+            &copy; <%= new Date().getFullYear() %> Officialgames.id. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Data Server Side ke Client Side
+            let rawPhone = "<%= site.waNumber %>";
+            
+            // 1. Bersihkan Nomor (Hapus spasi, strip, ubah 08 jadi 628)
+            let cleanPhone = rawPhone.replace(/\D/g, '');
+            if (cleanPhone.startsWith('0')) {
+                cleanPhone = '62' + cleanPhone.slice(1);
+            }
+
+            // 2. Tentukan Pesan Berdasarkan Halaman
+            const currentPath = window.location.pathname;
+            const waBase = `https://wa.me/${cleanPhone}`;
+            let message = "";
+
+            if (currentPath.includes('/view/')) {
+                // Logika Halaman Detail Produk
+                const parts = currentPath.split('/');
+                const productName = parts[parts.length - 1].replace(/-/g, ' ').toUpperCase();
+                message = `Halo Admin, saya tertarik dengan produk ${productName}, mohon infonya.`;
+            } else {
+                // Logika Halaman Utama / Lainnya (Template Profesional)
+                message = "Halo Admin Official Games, saya berkunjung ke website dan tertarik untuk mengetahui lebih lanjut tentang layanan database serta produk digital yang tersedia. Bisa dibantu?";
+            }
+
+            // 3. Update Link di Footer
+            const linkElement = document.getElementById('waLinkFooter');
+            if (linkElement) {
+                linkElement.href = `${waBase}?text=${encodeURIComponent(message)}`;
+            }
+        })();
+    </script>
+</footer>

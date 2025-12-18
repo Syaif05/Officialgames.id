@@ -1,0 +1,117 @@
+<section class="relative pt-32 pb-12 lg:pt-44 lg:pb-24 overflow-hidden flex items-center" x-data="{ 
+    activeSlide: 0, 
+    slides: [
+        <% if (typeof banners !== 'undefined' && banners.length > 0) { %>
+            <% banners.forEach(function(banner, index) { %>
+                { 
+                    image: '<%= banner.imageUrl %>', 
+                    title: '<%= banner.title %>' 
+                }<%= index < banners.length - 1 ? ',' : '' %>
+            <% }); %>
+        <% } else { %>
+            { 
+                image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop', 
+                title: 'Database Belum Diisi' 
+            }
+        <% } %>
+    ],
+    autoSlideInterval: null,
+    startAutoSlide() {
+        if (this.slides.length > 1) {
+            this.autoSlideInterval = setInterval(() => {
+                this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+            }, 5000);
+        }
+    },
+    stopAutoSlide() {
+        clearInterval(this.autoSlideInterval);
+    }
+}" x-init="startAutoSlide()" @mouseenter="stopAutoSlide()" @mouseleave="startAutoSlide()">
+
+    <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    
+    <% 
+        // Logic Pembersih Nomor WA & Pesan Template
+        let cleanWa = (site.waNumber || '').toString().replace(/\D/g, ''); 
+        if (cleanWa.startsWith('0')) cleanWa = '62' + cleanWa.slice(1);
+        
+        const waMessage = "Halo Admin Official Games, Saya Tertarik dengan produk yang di website anda jual";
+        const waLinkHero = `https://wa.me/${cleanWa}?text=${encodeURIComponent(waMessage)}`;
+    %>
+
+    <div class="container mx-auto px-6 relative z-10 h-full">
+        <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            
+            <div class="w-full lg:w-5/12 order-2 lg:order-1" data-aos="fade-right">
+                <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-gold-100 text-gold-600 font-semibold text-sm tracking-wide border border-gold-200">
+                     Pusat Database Terlengkap #1
+                </div>
+                
+                <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
+                    <%= site.heroTitle || 'Official Games' %>
+                </h1>
+                
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    <%= site.heroSubtitle || 'Solusi database premium untuk kebutuhan bisnis digital Anda.' %>
+                </p>
+                
+                <div class="flex flex-wrap gap-3">
+                    <a href="#database" class="px-6 py-3 rounded-xl bg-gray-900 text-white font-bold text-sm shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1 flex items-center">
+                         Jelajahi Database
+                    </a>
+
+                    <% if (site.shopeeUrl) { %>
+                        <a href="<%= site.shopeeUrl %>" target="_blank" class="px-5 py-3 rounded-xl bg-white text-gray-700 font-bold text-sm shadow-md border border-gray-200 hover:bg-orange-50 hover:border-orange-200 transition transform hover:-translate-y-1 flex items-center gap-2 group">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg" alt="Shopee" class="h-5 opacity-80 group-hover:opacity-100 transition">
+                            <span>Shopee</span>
+                        </a>
+                    <% } %>
+
+                    <% if (site.lynkUrl) { %>
+                        <a href="<%= site.lynkUrl %>" target="_blank" class="px-5 py-3 rounded-xl bg-white text-gray-700 font-bold text-sm shadow-md border border-gray-200 hover:bg-blue-50 hover:border-blue-200 transition transform hover:-translate-y-1 flex items-center gap-2">
+                            <div class="w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-[10px] font-bold">L</div>
+                            <span>Lynk.id</span>
+                        </a>
+                    <% } %>
+
+                    <a href="<%= waLinkHero %>" target="_blank" class="px-5 py-3 rounded-xl bg-green-50 text-green-700 font-bold text-sm shadow-md border border-green-200 hover:bg-green-100 transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" class="h-5">
+                        <span>Hubungi Admin</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-7/12 order-1 lg:order-2 relative" data-aos="fade-left">
+                <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition duration-500 bg-gray-100">
+                    <template x-for="(slide, index) in slides" :key="index">
+                        <div x-show="activeSlide === index" 
+                             x-transition:enter="transition ease-out duration-500"
+                             x-transition:enter-start="opacity-0 scale-105"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-300"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute inset-0">
+                            <img :src="slide.image" class="w-full h-full object-cover" alt="Banner">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
+                                <h3 class="text-white text-2xl font-bold" x-text="slide.title"></h3>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    <div class="absolute bottom-6 right-6 flex gap-2 z-20" x-show="slides.length > 1">
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <button @click="stopAutoSlide(); activeSlide = index; startAutoSlide()" 
+                                    class="h-2 rounded-full transition-all duration-300 shadow-sm"
+                                    :class="activeSlide === index ? 'bg-gold-500 w-8' : 'bg-white/50 w-2 hover:bg-white'">
+                            </button>
+                        </template>
+                    </div>
+                </div>
+                
+                <div class="absolute -z-10 top-10 -right-10 w-48 h-48 lg:w-64 lg:h-64 bg-gold-400 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+                <div class="absolute -z-10 -bottom-10 -left-10 w-48 h-48 lg:w-64 lg:h-64 bg-blue-400 rounded-full blur-3xl opacity-20 animate-pulse delay-1000"></div>
+            </div>
+        </div>
+    </div>
+</section>

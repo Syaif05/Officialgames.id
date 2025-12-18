@@ -1,0 +1,61 @@
+<div class="p-6">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-slate-800">Monitoring & Audit</h2>
+        <p class="text-slate-500 mt-1">Pilih database untuk melihat aktivitas file, keamanan, dan akses pengguna.</p>
+    </div>
+
+    <% if (drives.length === 0) { %>
+        <div class="flex flex-col items-center justify-center py-20 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50 text-center">
+            <div class="text-5xl mb-4 grayscale opacity-30">📭</div>
+            <h3 class="text-lg font-semibold text-slate-600">Belum ada database</h3>
+            <p class="text-slate-400 text-sm mt-1">Tambahkan database baru di menu Dashboard terlebih dahulu.</p>
+        </div>
+    <% } %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% drives.forEach(drive => { %>
+            <a href="/admin/drive-logs?driveId=<%= drive.rootFolderId %>" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-indigo-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden cursor-pointer block">
+                
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-50 to-indigo-50 rounded-bl-full -mr-10 -mt-10 group-hover:scale-110 transition duration-500"></div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white shrink-0">
+                            <img src="<%= drive.imageUrl %>" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100?text=DB'">
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 class="text-lg font-bold text-slate-800 truncate group-hover:text-indigo-600 transition"><%= drive.name %></h3>
+                            <p class="text-xs text-slate-500 font-mono truncate"><%= drive.rootFolderId %></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Total Member</p>
+                            <div class="flex items-center gap-1 text-slate-700 font-bold">
+                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                <%= drive.memberCount %>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Riwayat Log</p>
+                            <div class="flex items-center gap-1 text-slate-700 font-bold">
+                                <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                <%= drive.logCount %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-2 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                            Aktifitas: <%= drive.lastActivity ? new Date(drive.lastActivity).toLocaleDateString('id-ID') : 'Belum ada' %>
+                        </span>
+                        <span class="text-indigo-600 text-xs font-bold group-hover:translate-x-1 transition flex items-center gap-1">
+                            Buka Kontrol <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+</div>

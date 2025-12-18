@@ -1,0 +1,99 @@
+<%- include('../layouts/admin-header', { currentPath: '/dashboard' }) %>
+
+<div class="max-w-6xl mx-auto">
+    
+    <div class="mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Selamat Datang, Admin! 👋</h2>
+        <p class="text-slate-500 mt-2 text-lg">Berikut adalah ringkasan performa sistem Anda hari ini.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">📂</div>
+            <div>
+                <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Database</div>
+                <div class="text-2xl font-extrabold text-slate-800"><%= stats.totalDrives %></div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-xl">👥</div>
+            <div>
+                <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Member Aktif</div>
+                <div class="text-2xl font-extrabold text-slate-800"><%= stats.totalMembers %></div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">⚡</div>
+            <div>
+                <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Aktivitas Log</div>
+                <div class="text-2xl font-extrabold text-slate-800"><%= stats.totalLogs %></div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
+            <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl">📢</div>
+            <div>
+                <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Banner Aktif</div>
+                <div class="text-2xl font-extrabold text-slate-800"><%= stats.activeBanners %></div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Akses Cepat
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <a href="/admin/database" class="group relative bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:border-indigo-200 transition-all duration-300 overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-500">
+                <svg class="w-32 h-32 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+            
+            <div class="relative z-10">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mb-6 shadow-lg shadow-indigo-200 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Manajemen Database</h3>
+                <p class="text-slate-500 mb-6 leading-relaxed">Kelola Google Drive, sinkronisasi file, dan atur akses member dalam satu tempat terpusat.</p>
+                
+                <div class="flex gap-2">
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200">Drives</span>
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200">Members</span>
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200">Logs</span>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex items-center text-indigo-600 font-bold group-hover:translate-x-2 transition-transform">
+                Buka Manajemen Database <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </div>
+        </a>
+
+        <a href="/admin/system" class="group relative bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:border-pink-200 transition-all duration-300 overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-500">
+                <svg class="w-32 h-32 text-pink-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+            </div>
+            
+            <div class="relative z-10">
+                <div class="w-14 h-14 rounded-2xl bg-pink-600 text-white flex items-center justify-center mb-6 shadow-lg shadow-pink-200 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Pengaturan Sistem</h3>
+                <p class="text-slate-500 mb-6 leading-relaxed">Kontrol tampilan website, banner promosi, dan informasi kontak global website Anda.</p>
+                
+                <div class="flex gap-2">
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200">Global Settings</span>
+                    <span class="px-3 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-600 border border-slate-200">Banners</span>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex items-center text-pink-600 font-bold group-hover:translate-x-2 transition-transform">
+                Buka Pengaturan Sistem <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+<%- include('../layouts/admin-footer') %>

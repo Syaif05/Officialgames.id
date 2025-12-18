@@ -1,0 +1,40 @@
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-gold-100 rounded-full blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-indigo-100 rounded-full blur-3xl opacity-30 translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Cara <span class="text-gold-500">Pembelian</span></h2>
+            <p class="text-gray-500 max-w-xl mx-auto">Pilih metode pembayaran favorit Anda di bawah ini.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <a href="<%= site.shopeeUrl || '#' %>" target="_blank" class="group relative p-8 rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                <div class="w-16 h-16 mb-6 rounded-2xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-500 transition duration-300 shadow-sm">
+                    <svg class="w-8 h-8 text-orange-500 group-hover:text-white transition" viewBox="0 0 24 24" fill="currentColor"><path d="M19.8 6.42l-1.95-1.9a1.27 1.27 0 00-.91-.38 1.23 1.23 0 00-.9.39L14.71 6a4.8 4.8 0 00-5.42 0L7.96 4.53a1.23 1.23 0 00-.9-.39 1.27 1.27 0 00-.91.38L4.2 6.42A4.27 4.27 0 003 9.49c0 4.14 4.09 7.5 9 7.5s9-3.36 9-7.5a4.27 4.27 0 00-1.2-3.07zM12 15c-3.48 0-6.5-2.28-7-5.5.5-3.22 3.52-5.5 7-5.5s6.5 2.28 7 5.5c-.5 3.22-3.52 5.5-7 5.5z"/><path d="M12 7.5a2 2 0 100 4 2 2 0 000-4zm0 3a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition">Shopee</h3>
+                <span class="text-orange-500 font-semibold text-sm flex items-center group-hover:translate-x-1 transition">Kunjungi Toko →</span>
+            </a>
+            
+            <a href="<%= site.lynkUrl || '#' %>" target="_blank" class="group relative p-8 rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                <div class="w-16 h-16 mb-6 rounded-2xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-500 transition duration-300 shadow-sm">
+                    <svg class="w-8 h-8 text-indigo-500 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition">Lynk.id</h3>
+                <span class="text-indigo-500 font-semibold text-sm flex items-center group-hover:translate-x-1 transition">Lihat Katalog →</span>
+            </a>
+
+            <a href="https://wa.me/<%= site.waNumber %>" target="_blank" class="group relative p-8 rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                <div class="w-16 h-16 mb-6 rounded-2xl bg-green-50 flex items-center justify-center group-hover:bg-green-500 transition duration-300 shadow-sm">
+                    <svg class="w-8 h-8 text-green-500 group-hover:text-white transition" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.68-2.031-9.67-.272-.099-.47-.149-.669-.149-.198 0-.42.001-.643.001-.223 0-.585.085-.89.42-.305.334-1.177 1.15-1.177 2.802 0 1.653 1.203 3.248 1.37 3.469.168.223 2.367 3.618 5.731 5.071 2.404 1.037 2.893.83 3.438.779.545-.049 1.758-.718 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition">WhatsApp</h3>
+                <span class="text-green-500 font-semibold text-sm flex items-center group-hover:translate-x-1 transition">Chat Admin →</span>
+            </a>
+        </div>
+    </div>
+</section>

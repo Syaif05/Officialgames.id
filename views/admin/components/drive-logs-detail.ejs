@@ -1,0 +1,280 @@
+<div class="p-6 space-y-8" x-data="{ activeTab: '<%= activeTab %>', showDetailModal: false, selectedLog: null, showMemberModal: false, selectedMember: null }">
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-2">
+        <div class="flex items-center gap-4">
+            <a href="/admin/drive-logs" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition shadow-sm group">
+                <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            </a>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <%= driveInfo.name %>
+                    <span class="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-mono"><%= driveInfo.rootFolderId %></span>
+                </h2>
+                <p class="text-slate-500 text-sm mt-0.5">Dashboard Monitoring & Keamanan</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex space-x-1 bg-slate-100 p-1.5 rounded-xl w-fit shadow-inner overflow-x-auto">
+        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'" class="px-5 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 whitespace-nowrap">
+            <span>📊</span> Statistik
+        </button>
+        <button @click="activeTab = 'members'" :class="activeTab === 'members' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'" class="px-5 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 whitespace-nowrap">
+            <span>👥</span> Akses Member
+        </button>
+        <button @click="activeTab = 'activity'" :class="activeTab === 'activity' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'" class="px-5 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2 whitespace-nowrap">
+            <span>📜</span> Riwayat Aktivitas
+        </button>
+    </div>
+
+    <div x-show="activeTab === 'stats'" x-transition.opacity>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                <p class="text-blue-100 text-sm font-medium mb-1">Total Kapasitas</p>
+                <h3 class="text-4xl font-extrabold"><%= stats.totalSize %></h3>
+                <p class="mt-4 text-blue-200 text-xs">Ukuran real-time file dalam drive.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div><p class="text-slate-400 text-xs font-bold uppercase mb-1">Jumlah File</p><h3 class="text-3xl font-bold text-slate-800"><%= stats.totalFiles %></h3></div>
+                    <div class="p-3 bg-orange-50 rounded-xl text-orange-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div><p class="text-slate-400 text-xs font-bold uppercase mb-1">Akses User</p><h3 class="text-3xl font-bold text-slate-800"><%= stats.totalMembers %></h3></div>
+                    <div class="p-3 bg-green-50 rounded-xl text-green-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="activeTab === 'members'" x-cloak>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            
+            <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <a href="?driveId=<%= filterDrive %>&tab=members" class="px-3 py-1.5 text-xs font-bold rounded-lg border <%= !filterRole ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 hover:bg-slate-100' %>">Semua</a>
+                    <a href="?driveId=<%= filterDrive %>&tab=members&role=organizer" class="px-3 py-1.5 text-xs font-bold rounded-lg border <%= filterRole === 'organizer' ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-slate-600 hover:text-purple-600' %>">Pemilik</a>
+                    <a href="?driveId=<%= filterDrive %>&tab=members&role=fileOrganizer" class="px-3 py-1.5 text-xs font-bold rounded-lg border <%= filterRole === 'fileOrganizer' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 hover:text-blue-600' %>">Pengelola</a>
+                    <a href="?driveId=<%= filterDrive %>&tab=members&role=reader" class="px-3 py-1.5 text-xs font-bold rounded-lg border <%= filterRole === 'reader' ? 'bg-green-600 text-white border-green-600' : 'bg-white text-slate-600 hover:text-green-600' %>">Pembaca</a>
+                </div>
+
+                <div class="flex gap-2 w-full md:w-auto">
+                    <form action="/admin/drive-logs" method="GET" class="relative flex-grow">
+                        <input type="hidden" name="driveId" value="<%= filterDrive %>">
+                        <input type="hidden" name="tab" value="members">
+                        <% if(filterRole) { %><input type="hidden" name="role" value="<%= filterRole %>"><% } %>
+                        
+                        <input type="text" name="searchMember" value="<%= searchMember %>" placeholder="Cari nama / email..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </form>
+                    
+                    <form action="/admin/drive-logs/sync-members" method="POST">
+                        <input type="hidden" name="driveId" value="<%= filterDrive %>">
+                        <button type="submit" class="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-3 py-2 rounded-lg font-bold transition shadow-sm h-full" title="Scan Ulang">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-white border-b border-slate-100 text-xs uppercase text-slate-400 font-bold">
+                            <th class="px-6 py-4">User / Email</th>
+                            <th class="px-6 py-4">Role (Hak Akses)</th>
+                            <th class="px-6 py-4">Tipe Akun</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50 text-sm text-slate-600">
+                        <% if(members.length === 0) { %>
+                            <tr><td colspan="4" class="text-center py-12 italic text-slate-400">Tidak ada data.</td></tr>
+                        <% } %>
+                        
+                        <% members.forEach(m => { 
+                             let roleLabel = m.role;
+                             let roleColor = 'bg-slate-100 text-slate-600 border-slate-100';
+                             if(m.role === 'organizer') { roleLabel = 'Pemilik'; roleColor = 'bg-purple-50 text-purple-700 border-purple-100'; }
+                             if(m.role === 'fileOrganizer') { roleLabel = 'Pengelola'; roleColor = 'bg-blue-50 text-blue-700 border-blue-100'; }
+                             if(m.role === 'writer') { roleLabel = 'Editor'; roleColor = 'bg-orange-50 text-orange-700 border-orange-100'; }
+                             if(m.role === 'reader') { roleLabel = 'Pembaca'; roleColor = 'bg-green-50 text-green-700 border-green-100'; }
+                        %>
+                            <tr class="hover:bg-slate-50/50 transition group cursor-pointer" 
+                                @click="showMemberModal = true; selectedMember = {
+                                    name: '<%= m.displayName || 'Unknown' %>',
+                                    email: '<%= m.email %>',
+                                    role: '<%= roleLabel %>',
+                                    type: '<%= m.type %>',
+                                    id: '<%= m.permissionId %>',
+                                    photo: '<%= m.photoLink %>',
+                                    sync: '<%= new Date(m.lastSync).toLocaleString() %>'
+                                }">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <% if(m.photoLink) { %>
+                                            <img src="<%= m.photoLink %>" class="w-9 h-9 rounded-full border border-slate-200 object-cover">
+                                        <% } else { %>
+                                            <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs">
+                                                <%= m.displayName ? m.displayName.charAt(0).toUpperCase() : '?' %>
+                                            </div>
+                                        <% } %>
+                                        <div>
+                                            <div class="font-bold text-slate-800 group-hover:text-indigo-600 transition"><%= m.displayName || 'Tanpa Nama' %></div>
+                                            <div class="text-xs text-slate-400 font-mono"><%= m.email %></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="uppercase text-[10px] font-bold px-2 py-1 rounded border <%= roleColor %>">
+                                        <%= roleLabel %>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-xs font-medium bg-slate-100 px-2 py-1 rounded text-slate-600 uppercase"><%= m.type %></span>
+                                </td>
+                                <td class="px-6 py-4 text-right"><button class="text-indigo-600 hover:text-indigo-800 text-xs font-bold group-hover:underline">Detail</button></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="activeTab === 'activity'" x-cloak>
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+             <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+                
+                <div class="flex overflow-x-auto gap-2 w-full md:w-auto no-scrollbar">
+                    <a href="?driveId=<%= filterDrive %>&tab=activity" class="px-3 py-1.5 rounded-lg text-xs font-bold border whitespace-nowrap transition <%= !filterAction ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100' %>">
+                        Semua (<%= logCounts.ALL %>)
+                    </a>
+                    <a href="?driveId=<%= filterDrive %>&tab=activity&action=UPLOAD" class="px-3 py-1.5 rounded-lg text-xs font-bold border whitespace-nowrap transition <%= filterAction === 'UPLOAD' ? 'bg-green-600 text-white border-green-600' : 'bg-white text-slate-600 border-slate-200 hover:text-green-600' %>">
+                        Upload (<%= logCounts.UPLOAD %>)
+                    </a>
+                    <a href="?driveId=<%= filterDrive %>&tab=activity&action=EDIT" class="px-3 py-1.5 rounded-lg text-xs font-bold border whitespace-nowrap transition <%= filterAction === 'EDIT' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:text-blue-600' %>">
+                        Edit (<%= logCounts.EDIT %>)
+                    </a>
+                    <a href="?driveId=<%= filterDrive %>&tab=activity&action=DELETE" class="px-3 py-1.5 rounded-lg text-xs font-bold border whitespace-nowrap transition <%= filterAction === 'DELETE' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-slate-600 border-slate-200 hover:text-red-600' %>">
+                        Hapus (<%= logCounts.DELETE %>)
+                    </a>
+                     <a href="?driveId=<%= filterDrive %>&tab=activity&action=PERMISSION" class="px-3 py-1.5 rounded-lg text-xs font-bold border whitespace-nowrap transition <%= filterAction === 'PERMISSION' ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-slate-600 border-slate-200 hover:text-purple-600' %>">
+                        Akses (<%= logCounts.PERMISSION %>)
+                    </a>
+                </div>
+
+                <div class="flex gap-2 w-full md:w-auto">
+                    <form action="/admin/drive-logs" method="GET" class="relative flex-grow">
+                        <input type="hidden" name="driveId" value="<%= filterDrive %>">
+                        <input type="hidden" name="tab" value="activity">
+                        <% if(filterAction) { %><input type="hidden" name="action" value="<%= filterAction %>"><% } %>
+                        
+                        <input type="text" name="searchLog" value="<%= searchLog %>" placeholder="Cari log..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </form>
+                    
+                    <form action="/admin/drive-logs/sync" method="POST">
+                        <input type="hidden" name="driveId" value="<%= filterDrive %>">
+                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-indigo-700 transition shadow-sm h-full text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Update
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-white border-b border-slate-100 text-xs uppercase text-slate-400 font-bold">
+                        <tr><th class="px-6 py-4 w-40">Waktu</th><th class="px-6 py-4 w-1/4">Pelaku</th><th class="px-6 py-4 w-32">Aksi</th><th class="px-6 py-4">Target File/Folder</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50 text-sm text-slate-600">
+                        <% if(logs.length === 0) { %> <tr><td colspan="4" class="text-center py-12 italic text-slate-400">Tidak ada log aktivitas.</td></tr> <% } %>
+                        
+                        <% logs.forEach(log => { 
+                             let badgeColor = 'bg-slate-100 text-slate-600';
+                             let label = log.action;
+                             if(log.action === 'UPLOAD' || log.action === 'CREATE') { badgeColor = 'bg-green-100 text-green-700'; label = 'BARU'; }
+                             if(log.action === 'EDIT') { badgeColor = 'bg-blue-100 text-blue-700'; label = 'EDIT'; }
+                             if(log.action === 'DELETE') { badgeColor = 'bg-red-100 text-red-700'; label = 'HAPUS'; }
+                             if(log.action === 'PERMISSION') { badgeColor = 'bg-purple-100 text-purple-700'; label = 'AKSES'; }
+                        %>
+                            <tr class="hover:bg-indigo-50/50 transition cursor-pointer group" 
+                                @click="showLogModal = true; selectedLog = {
+                                    time: '<%= new Date(log.timestamp).toLocaleString() %>',
+                                    actorName: '<%= log.actorName || 'Unknown' %>',
+                                    actorEmail: '<%= log.actorEmail %>',
+                                    action: '<%= label %>',
+                                    target: '<%= log.targetName %>',
+                                    targetType: '<%= log.targetType %>',
+                                    detail: '<%= log.details %>'
+                                }">
+                                <td class="px-6 py-4 text-xs text-slate-400 font-mono whitespace-nowrap">
+                                    <%= new Date(log.timestamp).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500 border border-slate-200 group-hover:border-indigo-200 group-hover:bg-indigo-100 group-hover:text-indigo-600 transition">
+                                            <%= log.actorName ? log.actorName.charAt(0) : '?' %>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-slate-800 text-xs group-hover:text-indigo-700 transition"><%= log.actorName || 'Unknown' %></span>
+                                            <span class="text-[9px] text-slate-400 font-mono"><%= log.actorEmail %></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded-md text-[10px] font-bold <%= badgeColor %>"><%= label %></span></td>
+                                <td class="px-6 py-4 text-slate-700 font-medium text-xs truncate max-w-[200px]"><%= log.targetName %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            
+            <% if(pagination.total > 1) { %>
+                <div class="p-4 border-t border-slate-100 flex justify-center gap-2">
+                    <% if (pagination.current > 1) { %> <a href="?driveId=<%= filterDrive %>&tab=activity&action=<%= filterAction %>&searchLog=<%= searchLog %>&page=<%= pagination.current - 1 %>" class="px-3 py-1 bg-white border rounded hover:bg-slate-50 text-xs">Prev</a> <% } %>
+                    <span class="px-3 py-1 text-xs text-slate-500 bg-slate-50 rounded border">Hal <%= pagination.current %></span>
+                    <% if (pagination.current < pagination.total) { %> <a href="?driveId=<%= filterDrive %>&tab=activity&action=<%= filterAction %>&searchLog=<%= searchLog %>&page=<%= pagination.current + 1 %>" class="px-3 py-1 bg-white border rounded hover:bg-slate-50 text-xs">Next</a> <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div x-show="showMemberModal" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm" x-transition>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative transform transition-all" @click.away="showMemberModal = false">
+            <button @click="showMemberModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">✕</button>
+            <div class="text-center mt-4">
+                <img :src="selectedMember?.photo || 'https://via.placeholder.com/100'" class="w-20 h-20 rounded-full mx-auto border-4 border-slate-100 shadow-sm mb-4 object-cover">
+                <h3 class="text-xl font-bold text-slate-800" x-text="selectedMember?.name"></h3>
+                <p class="text-sm text-slate-500 font-mono" x-text="selectedMember?.email"></p>
+                <div class="mt-4 inline-flex px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-100" x-text="selectedMember?.role"></div>
+            </div>
+            <div class="mt-6 space-y-3 border-t border-slate-100 pt-4 text-sm">
+                <div class="flex justify-between"><span class="text-slate-500">Tipe Akun:</span> <span class="font-medium uppercase" x-text="selectedMember?.type"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">ID Izin:</span> <span class="font-mono text-xs" x-text="selectedMember?.id"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Terakhir Sync:</span> <span class="font-medium" x-text="selectedMember?.sync"></span></div>
+            </div>
+            <button @click="showMemberModal = false" class="w-full mt-6 bg-slate-900 text-white py-2 rounded-lg text-sm hover:bg-slate-800">Tutup</button>
+        </div>
+    </div>
+
+    <div x-show="showLogModal" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm" x-transition>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative" @click.away="showLogModal = false">
+            <button @click="showLogModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">✕</button>
+            <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Detail Aktivitas</h3>
+            <div class="space-y-4 text-sm">
+                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Waktu</label><div class="font-mono bg-slate-50 px-3 py-2 rounded border" x-text="selectedLog?.time"></div></div>
+                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Pelaku</label><div class="font-bold text-slate-800" x-text="selectedLog?.actorName"></div><div class="text-xs text-slate-500" x-text="selectedLog?.actorEmail"></div></div>
+                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Aksi</label><div class="text-slate-700 font-bold" x-text="selectedLog?.action"></div></div>
+                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Detail</label><div class="bg-slate-50 p-3 rounded border h-24 overflow-y-auto text-slate-600" x-text="selectedLog?.detail"></div></div>
+            </div>
+            <button @click="showLogModal = false" class="w-full mt-6 bg-slate-900 text-white py-2 rounded-lg text-sm hover:bg-slate-800">Tutup</button>
+        </div>
+    </div>
+
+</div>

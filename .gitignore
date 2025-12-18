@@ -1,0 +1,4 @@
+Set-Content .gitignore "node_modules
+.env
+service-account.json
+.DS_Store"
